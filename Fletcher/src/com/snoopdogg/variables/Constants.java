@@ -21,13 +21,13 @@ public class Constants extends ClientAccessor {
 	public int bonfire_fire = 0;
 	public int regular_fire = 0;
 	public int cut = 0;
-	
-	public final ArrayList<Tile> UNACCEPTABLE_TILES = new ArrayList<Tile>();
+
 	public final ArrayList<Tile> ACCEPTABLE_TILES = new ArrayList<Tile>();
 	
 	public final int ARROW_SHAFT_ID = 52;
 	public final int[] FIRE_ID = new int[]{70755,70757,70761,70764};
 	public final int BURN_STANCE = 16701;
+	public final int BURN_ANIMATION = 24886;
 
     public final Component KNIFE_CLICK = ctx.widgets.component(1179,33);
     public final Component FLETCH_BUTTON = ctx.widgets.component(1370, 20);

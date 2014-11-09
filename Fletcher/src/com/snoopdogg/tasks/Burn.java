@@ -26,8 +26,8 @@ public class Burn extends Task {
 		return ctx.backpack.select().id(CONSTS.fletching.getId()).count() >= 1
 				&& CONSTS.method.equals("Burn")
 				// if we arent aleady burning
-				&& ctx.players.local().animation() != 24886
-				&& ctx.players.local().stance() != 16701;
+				&& ctx.players.local().animation() != CONSTS.BURN_ANIMATION
+				&& ctx.players.local().stance() != CONSTS.BURN_STANCE;
 	}
 
 	@Override
