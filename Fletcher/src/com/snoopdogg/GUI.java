@@ -22,7 +22,7 @@ public class GUI {
 		final JFrame FRAME = new JFrame("Snoop Dogg's AIO Fletcher");
 		final JPanel PANEL = new JPanel();
 		final JComboBox<Items> LOGS = new JComboBox<Items>(LOG_TYPES);
-		final JComboBox<String> METHODS = new JComboBox<String>(new String[]{"Shortbow","Stock","Shieldbow","Arrow shaft"});
+		final JComboBox<String> METHODS = new JComboBox<String>(new String[]{"None","Shortbow","Stock","Shieldbow","Arrow shaft","Burn"});
 		final JButton START = new JButton("Start");
 		PANEL.setLayout(new BorderLayout());
 		LOGS.setSelectedIndex(0);

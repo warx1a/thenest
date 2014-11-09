@@ -12,20 +12,23 @@ import com.snoopdogg.variables.Constants;
 import com.snoopdogg.variables.Items;
 
 public class Fletch extends Task {
+
+	public Fletch(ClientContext arg0, final Constants CONSTS) {
+		super(arg0);
+		this.CONSTS = CONSTS;
+	}
 	
 	private final Constants CONSTS;
 	private boolean first = true;
-
-	public Fletch(ClientContext arg0, final Constants consts) {
-		super(arg0);
-		this.CONSTS = consts;
-	}
 
 	@Override
 	public boolean activate() {
 		// the cancel button for the creating interface
 		final Component CANCEL_BUTTON = CONSTS.CANCEL_BUTTON;
-		return ctx.backpack.select().id(CONSTS.fletching.getId()).count() >= 1 && !CANCEL_BUTTON.valid() && !CANCEL_BUTTON.visible();
+		return ctx.backpack.select().id(CONSTS.fletching.getId()).count() >= 1
+				&& !CANCEL_BUTTON.valid() 
+				&& !CANCEL_BUTTON.visible()
+				&& !CONSTS.method.equals("Burn");
 	}
 
 	@Override
@@ -34,14 +37,14 @@ public class Fletch extends Task {
 		final Component KNIFE = CONSTS.KNIFE_CLICK;
 		final Component FLETCH_BUTTON = CONSTS.FLETCH_BUTTON;
 		// get random log from inventory
-		final Item log = ctx.backpack.select().id(CONSTS.fletching.getId()).shuffle().poll();
+		final Item log = ctx.backpack.id(CONSTS.fletching.getId()).shuffle().poll();
 		// interact with log
 		if(log.interact("Craft")) {
 			Condition.wait(new Callable<Boolean>() {
 
 				@Override
 				public Boolean call() throws Exception {
-					return !KNIFE.valid() && !KNIFE.visible();
+					return KNIFE.valid() && KNIFE.visible();
 				}
 			},200,3);
 			if(KNIFE.valid() && KNIFE.visible()) {
@@ -52,16 +55,16 @@ public class Fletch extends Task {
 
 						@Override
 						public Boolean call() throws Exception {
-							return !FLETCH_BUTTON.visible() && !FLETCH_BUTTON.valid();
-						}	
+							return FLETCH_BUTTON.visible() && FLETCH_BUTTON.valid();
+						}
 					});
 					// if the buttons visible
-					if(FLETCH_BUTTON.inViewport() && FLETCH_BUTTON.valid()) {
+					if(FLETCH_BUTTON.visible() && FLETCH_BUTTON.valid()) {
 						// if it still needs to select the menu item
 						if(first) {
 							final Component itemchoice = evaluateIndexes(CONSTS.method);
 							if(itemchoice.visible() && itemchoice.valid()) {
-								itemchoice.click();
+								itemchoice.click("Select");
 								first = false;
 							}
 						}
@@ -70,28 +73,28 @@ public class Fletch extends Task {
 							Condition.wait(new Callable<Boolean>() {
 								@Override
 								public Boolean call() throws Exception {
-									return ctx.backpack.select().id(CONSTS.fletching.getId()).isEmpty();
+									return ctx.backpack.id(CONSTS.fletching.getId()).isEmpty();
 								}	
 							});
 						}
 					}
 				}
 				// if it took us directly to the fletching interface
-			} else if(FLETCH_BUTTON.inViewport() && FLETCH_BUTTON.valid()) {
+			} else if(FLETCH_BUTTON.visible() && FLETCH_BUTTON.valid()) {
 				// if it still needs to select the menu item
 				if(first) {
 					final Component itemchoice = evaluateIndexes(CONSTS.method);
 					if(itemchoice.visible() && itemchoice.valid()) {
-						itemchoice.click();
+						itemchoice.click("Select");
 						first = false;
 					}
 				}
-				if(CONSTS.FLETCH_BUTTON.click()) {
+				if(FLETCH_BUTTON.click()) {
 					// wait to fletch the logs
 					Condition.wait(new Callable<Boolean>() {
 						@Override
 						public Boolean call() throws Exception {
-							return ctx.backpack.select().id(CONSTS.fletching.getId()).isEmpty();
+							return ctx.backpack.id(CONSTS.fletching.getId()).isEmpty();
 						}	
 					});
 				}
